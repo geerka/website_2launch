@@ -432,7 +432,7 @@
 
     try {
       // 🔍 Skontroluj, či firma už existuje
-      const check = await fetch(`http://127.0.0.1:5000/api/check_name?name=${encodeURIComponent(name)}`);
+      const check = await fetch(`https://website-2launch.onrender.com/api/check_name?name=${encodeURIComponent(name)}`);
       const exists = await check.json();
 
       if (exists.found) {
