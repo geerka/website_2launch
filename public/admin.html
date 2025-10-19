@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Admin – 2Launch</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    body { font-family: "Inter", sans-serif; background: linear-gradient(135deg,#0b0b0b,#1a1a1a); color:#fff; }
+    nav { backdrop-filter: blur(10px); background-color: rgba(0,0,0,0.4); }
+    .container { padding-top: 90px; }
+    .card { background: rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.06); border-radius:16px; }
+    .stat { font-size: 2rem; font-weight:700; }
+    .small-muted { color:#cbd5e1; }
+    .btn-primary { background: linear-gradient(90deg,#007aff,#00c6ff); border:none; font-weight:600; }
+    .btn-danger { background: linear-gradient(90deg,#ff416c,#ff4b2b); border:none; font-weight:600; }
+    .link-preview { background: rgba(255,255,255,0.02); padding:10px 12px; border-radius:8px; border:1px solid rgba(255,255,255,0.03); }
+    footer { padding:2rem 0; text-align:center; color:#666; border-top:1px solid rgba(255,255,255,0.06); margin-top:40px; }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+    <div class="container">
+      <a class="navbar-brand fw-bold" href="index.html">2Launch</a>
+      <div class="ms-auto">
+        <button id="logout-btn" class="btn btn-sm btn-outline-light">Odhlásiť sa</button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div id="main-content">
+      <div class="row g-4 mb-4">
+        <div class="col-md-8">
+          <div class="card p-4">
+            <div class="d-flex justify-content-between align-items-start">
+              <div>
+                <h3 id="company-name" style="margin:0"></h3>
+                <p class="small-muted mb-0" id="company-desc">Prehľad tvojho profilu a výkonu podstránky.</p>
+              </div>
+              <div class="text-end">
+                <div class="small-muted">Tvoja podstránka</div>
+                <div class="link-preview mt-2" id="subpage-link">/to/nazov_firmy</div>
+                <a id="open-subpage" class="btn btn-primary btn-sm mt-2" target="_blank" href="#">Otvoriť podstránku</a>
+              </div>
+            </div>
+
+            <hr class="my-3" />
+
+            <div class="row g-3">
+              <div class="col-md-4">
+                <div class="p-3">
+                  <div class="small-muted">Návštevy</div>
+                  <div class="stat" id="stat-views">0</div>
+                  <div class="small-muted" id="days-online">Online: 0 dní</div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="p-3">
+                  <div class="small-muted">Objednávky</div>
+                  <div class="stat" id="stat-orders">0</div>
+                  <div class="small-muted">Konverzia: <span id="stat-conv">0%</span></div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="p-3">
+                  <div class="small-muted">Zákazník</div>
+                  <div id="owner-name" style="font-weight:600">—</div>
+                  <div class="small-muted" id="owner-email">—</div>
+                </div>
+              </div>
+            </div>
+
+            <hr class="my-3" />
+
+            <div>
+              <h5>Rýchle akcie</h5>
+              <div class="d-flex gap-2 flex-wrap">
+                <button id="btn-refresh" class="btn btn-outline-light">Obnoviť štatistiky</button>
+                <button id="btn-send-email" class="btn btn-primary">Poslať e-mail klientovi</button>
+                <button id="btn-delete" class="btn btn-danger">Zmazať profil</button>
+              </div>
+            </div>
+
+            <div id="email-form" class="mt-3" style="display:none;">
+              <div class="mb-2"><input id="email-subject" class="form-control" placeholder="Predmet" /></div>
+              <div class="mb-2"><textarea id="email-body" class="form-control" rows="4" placeholder="Telo správy..."></textarea></div>
+              <div class="d-flex gap-2">
+                <button id="email-send-confirm" class="btn btn-primary">Odoslať</button>
+                <button id="email-cancel" class="btn btn-outline-light">Zrušiť</button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="card p-3">
+            <h6>Detaily účtu</h6>
+            <div class="mt-2">
+              <div class="small-muted">Username</div>
+              <div id="acc-username" style="font-weight:600">—</div>
+            </div>
+            <div class="mt-2">
+              <div class="small-muted">Plán</div>
+              <div id="acc-plan">—</div>
+            </div>
+            <div class="mt-2">
+              <div class="small-muted">Kontakt</div>
+              <div id="acc-contact">—</div>
+            </div>
+            <hr/>
+            <div class="small-muted">Správa</div>
+            <div class="mt-2"><small>Tu môžeš sledovať základné metriky, posielať informácie zákazníkom a v prípade potreby profil zmazať.</small></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- História/aktivity (jednoduchý zoznam) -->
+      <div class="card p-3">
+        <h6>Posledné aktivity</h6>
+        <ul id="activity-list" class="list-unstyled mb-0 mt-2 small-muted">
+          <li>Žiadne aktivity.</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+  <footer>© 2025 2Launch. Všetky práva vyhradené.</footer>
+
+  <script>
+    const apiBase = "http://127.0.0.1:5000";
+    const token = localStorage.getItem("2launch_token") || null;
+    // reg_id môže byť v query alebo localStorage
+    const urlParams = new URLSearchParams(window.location.search);
+    const regId = urlParams.get("reg_id") || localStorage.getItem("2launch_reg_id");
+
+    if (!token || !regId) {
+      alert("Nie si prihlásený. Prejdeš na prihlasovaciu stránku.");
+      window.location.href = "login.html";
+    }
+
+    async function authFetch(path, opts = {}) {
+      opts.headers = opts.headers || {};
+      opts.headers["Authorization"] = "Bearer " + token;
+      opts.headers["Content-Type"] = "application/json";
+      const res = await fetch(apiBase + path, opts);
+      if (res.status === 401) {
+        alert("Sedenia vypršalo alebo nie si autorizovaný. Prihlás sa znova.");
+        localStorage.removeItem("2launch_token");
+        localStorage.removeItem("2launch_reg_id");
+        window.location.href = "login.html";
+        throw new Error("Unauthorized");
+      }
+      return res;
+    }
+
+    async function loadProfile() {
+      try {
+        const res = await authFetch(`/api/registration/${regId}`);
+        const data = await res.json();
+        if (data.error) throw new Error(data.error);
+        document.getElementById("company-name").innerText = data.company_name || "—";
+        document.getElementById("company-desc").innerText = data.address || "";
+        document.getElementById("acc-username").innerText = data.username || "—";
+        document.getElementById("acc-plan").innerText = data.plan || "—";
+        document.getElementById("acc-contact").innerText = data.contact_method || "—";
+        document.getElementById("owner-name").innerText = (data.first_name || "") + " " + (data.last_name || "");
+        document.getElementById("owner-email").innerText = data.email || "—";
+
+        // subpage link - formát /to/<company_slug>
+        const slug = (data.company_name || "firma").toLowerCase().replace(/\s+/g, "_").replace(/[^a-z0-9_]/g,"");
+        const subpage = `http://127.0.0.1:5500/to/${slug}.html`;
+        document.getElementById("subpage-link").innerText = subpage;
+        document.getElementById("open-subpage").href = subpage;
+
+        // load metrics
+        await loadMetrics();
+
+      } catch (err) {
+        console.error(err);
+        alert("Chyba pri načítaní profilu.");
+      }
+    }
+
+    async function loadMetrics() {
+      try {
+        const res = await authFetch(`/api/metrics/${regId}`);
+        const d = await res.json();
+        if (d.error) throw new Error(d.error);
+        document.getElementById("stat-views").innerText = d.views;
+        document.getElementById("stat-orders").innerText = d.orders;
+        document.getElementById("stat-conv").innerText = d.conversion_rate + "%";
+        document.getElementById("days-online").innerText = `Online: ${d.days_online} dní`;
+        // update activity list (simple)
+        const activities = [
+          `Profil vytvorený pred ${d.days_online} dňami.`,
+          `Návštevy: ${d.views}`,
+          `Objednávky: ${d.orders}`
+        ];
+        const ul = document.getElementById("activity-list");
+        ul.innerHTML = "";
+        activities.forEach(a => {
+          const li = document.createElement("li");
+          li.innerText = a;
+          ul.appendChild(li);
+        });
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    document.getElementById("btn-refresh").addEventListener("click", async () => {
+      await loadMetrics();
+      alert("Štatistiky obnovené.");
+    });
+
+    // send email UI
+    document.getElementById("btn-send-email").addEventListener("click", () => {
+      document.getElementById("email-form").style.display = "block";
+      document.getElementById("email-subject").value = "Info z 2Launch";
+      document.getElementById("email-body").value = `Dobrý deň,\n\nTu sú informácie o vašej stránke...`;
+    });
+    document.getElementById("email-cancel").addEventListener("click", () => {
+      document.getElementById("email-form").style.display = "none";
+    });
+
+    document.getElementById("email-send-confirm").addEventListener("click", async () => {
+      const subject = document.getElementById("email-subject").value.trim();
+      const body = document.getElementById("email-body").value.trim();
+      const recipient = document.getElementById("owner-email").innerText;
+      if (!subject || !body) return alert("Vyplň predmet a telo správy.");
+
+      try {
+        const res = await authFetch("/api/send_email", {
+          method: "POST",
+          body: JSON.stringify({ email: recipient, subject, body })
+        });
+        const json = await res.json();
+        if (json.success) {
+          alert("E-mail odoslaný.");
+          document.getElementById("email-form").style.display = "none";
+        } else {
+          alert("E-mail sa nepodarilo odoslať.");
+        }
+      } catch (err) {
+        console.error(err);
+        alert("Chyba pri odosielaní e-mailu.");
+      }
+    });
+
+    // delete profile
+    document.getElementById("btn-delete").addEventListener("click", async () => {
+      if (!confirm("Naozaj chceš zmazať tento profil? Ak áno, akcia je nevratná.")) return;
+      try {
+        const res = await authFetch(`/api/delete/${regId}`, { method: "DELETE" });
+        const json = await res.json();
+        if (json.success) {
+          alert("Profil zmazaný.");
+          // odhlásiť a presmerovať
+          localStorage.removeItem("2launch_token");
+          localStorage.removeItem("2launch_reg_id");
+          window.location.href = "index.html";
+        } else {
+          alert("Chyba pri mazání.");
+        }
+      } catch (err) {
+        console.error(err);
+        alert("Chyba pri mazání profilu.");
+      }
+    });
+
+    // logout
+    document.getElementById("logout-btn").addEventListener("click", () => {
+      localStorage.removeItem("2launch_token");
+      localStorage.removeItem("2launch_reg_id");
+      window.location.href = "login.html";
+    });
+
+    // naštartuj
+    loadProfile();
+  </script>
+</body>
+</html>

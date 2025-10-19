@@ -1,0 +1,16 @@
+# Ignoruj virtuálne prostredia a Python buildy
+**/__pycache__/
+**/.venv/
+**/*.pyc
+
+# Ignoruj backend serverové súbory (nepotrebné pre hosting)
+backend/**
+!backend/*.html
+!backend/*.js
+
+# Ignoruj node_modules, ak tam nejaké sú
+node_modules/
+
+# Štandardné veci
+.git/
+firebase-debug.log

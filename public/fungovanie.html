@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="sk">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ako fungujeme – OneLaunch</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+    <style>
+        body {
+            font-family: "Inter", sans-serif;
+            background: linear-gradient(135deg, #0b0b0b, #1a1a1a);
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        nav {
+            backdrop-filter: blur(10px);
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        .section-header {
+            text-align: center;
+            padding: 6rem 2rem 3rem;
+        }
+
+        .section-header h1 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, #ffffff, #9ca3af);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            color: #d1d5db;
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .steps-section {
+            padding: 3rem 2rem 6rem;
+        }
+
+        .step-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+
+        .step-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 0 30px rgba(0, 122, 255, 0.2);
+        }
+
+        .step-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .step-card h3 {
+            font-weight: 600;
+            margin-bottom: 1rem;
+            background: linear-gradient(90deg, #ffffff, #9ca3af);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .step-card p {
+            color: #d1d5db;
+            font-size: 1rem;
+        }
+
+        .info-section {
+            text-align: center;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+            color: #d1d5db;
+        }
+
+        .info-section h2 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(90deg, #ffffff, #9ca3af);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .btn-primary {
+            background: linear-gradient(90deg, #007aff, #00c6ff);
+            border: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(0, 122, 255, 0.4);
+        }
+
+        footer {
+            padding: 2rem 0;
+            text-align: center;
+            color: #666;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="index.html">2Launch</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a class="nav-link" href="#">Ako fungujeme</a></li>
+                    <li class="nav-item"><a class="nav-link" href="cenik.html">Cenník</a></li>
+
+                    <li class="nav-item"><a class="nav-link" href="blog.html">Blog</a></li>
+
+                    <li class="nav-item">
+                    <li class="nav-item"><a class="btn btn-primary ms-3" href="login.html">Login</a></li>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <section class="section-header mt-5 pt-5">
+        <h1>Ako fungujeme</h1>
+        <p>
+            Naším cieľom je zjednodušiť tvorbu a správu online profilov pre firmy.
+            Všetko prebieha rýchlo, automaticky a úsporne – bez potreby vlastnej
+            domény či zložitých nastavení.
+        </p>
+    </section>
+
+    <!-- Steps Section -->
+    <section class="steps-section">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="step-card text-center">
+                        <div class="step-icon">🪄</div>
+                        <h3>1. Vytvorenie podstránky</h3>
+                        <p>
+                            Každá firma dostane svoju vlastnú mikrostránku v tvare:
+                            <strong>www.to/nazov_vasej_firmy.sk</strong>.<br />
+                            Týmto spôsobom šetríme miesto aj náklady a môžeme službu
+                            poskytovať bezplatne .
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="step-card text-center">
+                        <div class="step-icon">⚙️</div>
+                        <h3>2. Automatizovaný systém</h3>
+                        <p>
+                            Systém automaticky spracuje informácie a vytvorí personalizovanú
+                            stránku podľa tvojho profilu. Vy len zadáte základné údaje –
+                            zvyšok nechajte na nás.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="step-card text-center">
+                        <div class="step-icon">👨‍💼</div>
+                        <h3>3. Správa administrátorom</h3>
+                        <p>
+                            Jeden z našich administrátorov bude zodpovedný za dohľad nad
+                            fungovaním týchto podstránok, aktualizácie a technickú
+                            podporu pre dodávateľov.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Info Section -->
+    <section class="info-section">
+        <h2>Prečo tento spôsob?</h2>
+        <p>
+            Zvolili sme systém <strong>podstránok</strong>, pretože veríme, že každá firma si zaslúži mať svoje miesto
+            online –
+            <strong>bez zbytočných komplikácií</strong>.
+            <br /><br />
+            Vďaka tomuto riešeniu dokážeme vašu stránku spustiť
+            <strong>rýchlejšie, lacnejšie a efektívnejšie</strong> než pri klasických doménach.
+            Len čistý priestor, kde váš biznis vynikne.
+            <br /><br />
+            Naším cieľom je vytvoriť <strong>jednotné a moderné prostredie</strong>, kde sa môže ukázať každý –
+            od malého remeselníka až po rastúcu firmu.
+            Každý podnik tu má rovnakú šancu zaujať, rozvíjať sa a osloviť svojich zákazníkov.
+            <br /><br />
+             <strong>Stačí jeden krok.</strong>
+            My sa postaráme o zvyšok.
+        </p>
+
+        <div class="mt-4">
+            <a href="#" class="btn btn-primary px-4">Zisti viac o systéme</a>
+        </div>
+    </section>
+
+
+    <footer>© 2025 2Launch. Všetky práva vyhradené.</footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

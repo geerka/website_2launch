@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Registrácia – 2Launch</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    body {
+  font-family: "Inter", sans-serif;
+  background: linear-gradient(135deg, #0b0b0b, #1a1a1a);
+  color: #fff;
+  overflow-x: hidden;
+  min-height: 100vh;
+  padding-top: 0px;
+  margin: 0;
+}
+
+.container-form {
+  max-width: 700px;
+  background: rgba(255, 255, 255, 0.05); /* menej výrazné pozadie */
+  padding: 2.5rem 3rem;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(20px);
+  margin: 20px auto;
+  position: relative;
+  z-index: 1;
+}
+
+h2 {
+  text-align: center;
+  background: linear-gradient(90deg, #ffffff, #9ca3af);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 700;
+  margin-bottom: 2rem;
+}
+
+.form-label {
+  color: #d1d5db;
+  font-weight: 500;
+}
+
+.form-control, .form-select {
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+  transition: all 0.3s ease;
+}
+
+.form-control:focus, .form-select:focus {
+  border-color: #007aff;
+  box-shadow: 0 0 10px rgba(0, 122, 255, 0.4);
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+.form-control::placeholder {
+  color: #bbb;
+}
+
+.btn-primary {
+  background: linear-gradient(90deg, #007aff, #00c6ff);
+  border: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  padding: 0.7rem 2.5rem;
+}
+
+.btn-primary:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px rgba(0, 122, 255, 0.4);
+}
+
+footer {
+  text-align: center;
+  padding: 2rem 0;
+  margin-top: 4rem;
+  color: #666;
+}
+#cierne{
+      color: rgb(255, 255, 255);
+}
+
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR (OneLaunch štýl) -->
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container">
+      <a class="navbar-brand fw-bold" href="index.html">2Launch</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item"><a class="nav-link" href="fungovanie.html">Ako fungujeme</a></li>
+          <li class="nav-item"><a class="nav-link" href="cenik.html">Cenník</a></li>
+          <li class="nav-item"><a class="nav-link" href="blog.html">Blog</a></li>
+          <li class="nav-item"><a class="btn btn-primary ms-3" href="login.html">Login</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- FORMULÁR -->
+  <div class="container-form">
+    <h2>Zaregistruj svoj biznis</h2>
+
+    <form id="register-form">
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Meno</label>
+          <input type="text" class="form-control" id="first_name" placeholder="Tvoje meno" required style="color: white;">
+        </div>
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Priezvisko</label>
+          <input type="text" class="form-control" id="last_name" placeholder="Tvoje priezvisko" required style="color: white;">
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Názov firmy</label>
+        <input type="text" class="form-control" id="company_name" placeholder="Zadaj názov firmy" required style="color: white;">
+      </div>
+
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Telefónne číslo</label>
+          <input type="tel" class="form-control" id="phone" placeholder="+421..." requiredstyle="color: white;" style="color: white;" >
+        </div>
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Email</label>
+          <input type="email" class="form-control" id="email" placeholder="napr. meno@firma.sk" requiredstyle="color: white;"  style="color: white;" >
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Adresa firmy</label>
+        <input type="text" class="form-control" id="address" placeholder="Ulica, mesto" requiredstyle="color: white;" style="color: white;" >
+      </div>
+
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Vyber si plán</label>
+          <select class="form-select" id="plan" required>
+            <option value="">-- Vyber možnosť --</option>
+            <option value="hotovost" id="cierne">💸 Platba v hotovosti</option>
+            <option value="online" id="cierne">💳 Online platba</option>
+          </select>
+        </div>
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Preferovaný kontakt</label>
+          <select class="form-select" id="contact_method" required>
+            <option value="" id="cierne">-- Vyber možnosť --</option>
+            <option value="osobne" id="cierne">Osobne</option>
+            <option value="telefonicky" id="cierne">Telefonicky</option>
+            <option value="email" id="cierne">Emailom</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="text-center mt-4">
+        <button type="submit" class="btn btn-primary">Odoslať registráciu</button>
+      </div>
+    </form>
+  </div>
+
+  <footer>© 2025 2Launch. Všetky práva vyhradené.</footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const company = params.get("company");
+    if (company) document.querySelector("#company_name").value = company;
+
+    document.querySelector("#register-form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const payload = {
+        first_name: document.querySelector("#first_name").value.trim(),
+        last_name: document.querySelector("#last_name").value.trim(),
+        company_name: document.querySelector("#company_name").value.trim(),
+        phone: document.querySelector("#phone").value.trim(),
+        email: document.querySelector("#email").value.trim(),
+        address: document.querySelector("#address").value.trim(),
+        plan: document.querySelector("#plan").value,
+        contact_method: document.querySelector("#contact_method").value
+      };
+      try {
+        const res = await fetch("http://127.0.0.1:5000/api/register", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+        const data = await res.json();
+        if (data.success) {
+          alert("✅ Registrácia bola úspešná!");
+          document.querySelector("#register-form").reset();
+        } else {
+          alert("⚠️ " + data.error);
+        }
+      } catch (err) {
+        alert("❌ Chyba pripojenia k serveru.");
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>2Launch Admin Panel</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    body { font-family: "Inter", sans-serif; background: linear-gradient(135deg, #0b0b0b, #1a1a1a); color: #fff; overflow-x: hidden; padding-top: 80px; }
+    nav { backdrop-filter: blur(10px); background-color: rgba(0,0,0,0.4); }
+    h1 { text-align:center; margin-bottom:2rem; background: linear-gradient(90deg,#fff,#9ca3af); -webkit-background-clip:text; -webkit-text-fill-color:transparent; font-weight:700; }
+    table { color:#fff; }
+    .table thead { background: rgba(255,255,255,0.1); }
+    .table tbody tr:hover { background: rgba(0,122,255,0.1); }
+    .btn-refresh { background: linear-gradient(90deg,#007aff,#00c6ff); border:none; font-weight:600; }
+    .btn-delete { background: linear-gradient(90deg,#ff4d4d,#ff7878); border:none; }
+    .error-box { text-align:center; color:#ff6b6b; padding:10px; }
+    body {
+  font-family: "Inter", sans-serif;
+  background: linear-gradient(135deg, #0b0b0b, #1a1a1a);
+  color: #fff;
+  overflow-x: hidden;
+  min-height: 100vh;
+  padding-top: 0px;
+  margin: 0;
+}
+
+.container-form {
+  max-width: 700px;
+  background: rgba(255, 255, 255, 0.05); /* menej výrazné pozadie */
+  padding: 2.5rem 3rem;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(20px);
+  margin: 20px auto;
+  position: relative;
+  z-index: 1;
+}
+  </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+  <div class="container">
+    <a class="navbar-brand fw-bold" href="#">2Launch Admin</a>
+    <div class="collapse navbar-collapse justify-content-end">
+      <a class="btn btn-primary btn-refresh" id="refresh-btn">🔄 Obnoviť</a>
+    </div>
+  </div>
+</nav>
+
+<div class="container">
+  <h1>Prehľad registrácií</h1>
+  <div class="table-responsive">
+    <table class="table table-dark table-striped align-middle">
+      <thead>
+        <tr>
+          <th>ID</th><th>Meno</th><th>Priezvisko</th><th>Firma</th>
+          <th>Telefón</th><th>Email</th><th>Adresa</th><th>Plán</th>
+          <th>Kontakt</th><th>Akcia</th>
+        </tr>
+      </thead>
+      <tbody id="data-body">
+        <tr><td colspan="10" class="text-center text-secondary">Načítavam dáta...</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- MODÁL -->
+<div class="modal fade" id="emailModal" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content text-dark">
+      <div class="modal-header">
+        <h5 class="modal-title">Odoslať e-mail</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <label class="form-label">Šablóna:</label>
+        <select id="template-select" class="form-select mb-3">
+          <option value="">— Vlastný e-mail —</option>
+          <option value="welcome">Uvítací e-mail</option>
+          <option value="payment_reminder">Pripomienka platby</option>
+        </select>
+        <input type="text" id="email-subject" class="form-control mb-2" placeholder="Predmet">
+        <textarea id="email-body" class="form-control" rows="8" placeholder="Text e-mailu"></textarea>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Zavrieť</button>
+        <button id="send-email-btn" class="btn btn-primary">✉️ Odoslať</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+let currentEmail = null;
+
+async function loadData() {
+  const tbody = document.getElementById("data-body");
+  tbody.innerHTML = `<tr><td colspan="10" class="text-center text-secondary">Načítavam dáta...</td></tr>`;
+  try {
+    const res = await fetch("http://127.0.0.1:5000/api/all_registrations");
+    const data = await res.json();
+
+    if (data.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="10" class="text-center text-secondary">Žiadne dáta v databáze.</td></tr>`;
+      return;
+    }
+
+    tbody.innerHTML = "";
+    data.forEach(row => {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td>${row.id}</td>
+        <td>${row.first_name}</td>
+        <td>${row.last_name}</td>
+        <td>${row.company_name}</td>
+        <td>${row.phone}</td>
+        <td>${row.email}</td>
+        <td>${row.address}</td>
+        <td>${row.plan}</td>
+        <td>${
+          row.contact_method === "email" ? row.email :
+          row.contact_method === "phone" ? row.phone :
+          row.contact_method === "in_person" ? row.address :
+          ""
+        }</td>
+        <td>
+          ${row.contact_method === "email" ? `<button class="btn btn-sm btn-primary me-1" onclick="openEmailModal('${row.email}','${row.first_name}','${row.company_name}','${row.plan}')">✉️ Email</button>` : ""}
+          <button class="btn btn-sm btn-danger" onclick="deleteRecord(${row.id})">🗑️ Zmazať</button>
+        </td>
+      `;
+      tbody.appendChild(tr);
+    });
+  } catch (err) {
+    tbody.innerHTML = `<tr><td colspan="10" class="error-box">❌ Chyba pri načítaní dát: ${err.message}</td></tr>`;
+  }
+}
+
+async function deleteRecord(id) {
+  if (!confirm("Naozaj chceš zmazať tento záznam?")) return;
+  const res = await fetch(`http://127.0.0.1:5000/api/delete/${id}`, { method: "DELETE" });
+  const data = await res.json();
+  if (data.success) loadData();
+}
+
+function openEmailModal(email, first_name, company_name, plan) {
+  currentEmail = email;
+  const modalEl = document.getElementById("emailModal");
+  const modal = new bootstrap.Modal(modalEl);
+  modal.show();
+
+  document.getElementById("template-select").value = "";
+  document.getElementById("email-subject").value = "";
+  document.getElementById("email-body").value = "";
+
+  document.getElementById("template-select").onchange = (e) => {
+    const val = e.target.value;
+    if (val === "welcome") {
+      document.getElementById("email-subject").value = "Vitaj v 2Launch 🎉";
+      document.getElementById("email-body").value =
+        `Ahoj ${first_name},\n\nďakujeme, že si sa zaregistroval/a na 2Launch!\nTvoj biznis "${company_name}" je pripravený na rast 🚀\n\nS pozdravom,\nTím 2Launch`;
+    } else if (val === "payment_reminder") {
+      document.getElementById("email-subject").value = "Pripomienka platby";
+      document.getElementById("email-body").value =
+        `Dobrý deň ${first_name},\n\npripomíname platbu za plán ${plan}. Ďakujeme, že používate 2Launch!`;
+    } else {
+      document.getElementById("email-subject").value = "";
+      document.getElementById("email-body").value = "";
+    }
+  };
+}
+
+// Odosielanie emailu
+document.getElementById("send-email-btn").addEventListener("click", async () => {
+  const subject = document.getElementById("email-subject").value.trim();
+  const body = document.getElementById("email-body").value.trim();
+  if (!currentEmail || !subject || !body) { alert("⚠️ Vyplň všetky polia!"); return; }
+
+  try {
+    const res = await fetch("http://127.0.0.1:5000/api/send_email", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email: currentEmail, subject, body }),
+    });
+    const data = await res.json();
+    if (data.success) {
+      alert("✅ E-mail bol úspešne odoslaný!");
+      const modal = bootstrap.Modal.getInstance(document.getElementById("emailModal"));
+      if (modal) modal.hide();
+    } else { alert("❌ Nepodarilo sa odoslať e-mail."); }
+  } catch (err) {
+    alert("❌ Chyba pri odosielaní e-mailu!");
+  }
+});
+
+document.getElementById("refresh-btn").addEventListener("click", loadData);
+window.addEventListener("DOMContentLoaded", loadData);
+</script>
+
+</body>
+</html>
